@@ -148,6 +148,21 @@ class TritonPart
                            const char* group_file,
                            const char* placement_file);
 
+void RefineHypergraphPartition(unsigned int num_parts,
+                           float balance_constraint,
+                           std::vector<float> base_balance,
+                           std::vector<float> scale_factor,
+                           unsigned int seed,
+                           int vertex_dimension,
+                           int hyperedge_dimension,
+                           int placement_dimension,
+                           const char* hypergraph_file,
+                           const char* fixed_file,
+                           const char* community_file,
+                           const char* group_file,
+                           const char* placement_file,
+                           const char* partition_file);
+
   // Evaluate a given solution of a hypergraph
   // The fixed vertices should statisfy the fixed vertices constraint
   // The group of vertices should stay together in the solution
@@ -241,6 +256,9 @@ class TritonPart
  private:
   // Main partititon function
   void MultiLevelPartition();
+
+  // refinement function
+  void Refine();
 
   // read and build hypergraph
   void ReadHypergraph(const std::string& hypergraph,

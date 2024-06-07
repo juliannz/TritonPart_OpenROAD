@@ -151,6 +151,90 @@ void triton_part_hypergraph(unsigned int num_parts,
       global_net_threshold);
 }
 
+void triton_part_refine(unsigned int num_parts,
+                            float balance_constraint,
+                            const std::vector<float>& base_balance,
+                            const std::vector<float>& scale_factor,
+                            unsigned int seed,
+                            int vertex_dimension,
+                            int hyperedge_dimension,
+                            int placement_dimension,
+                            const char* hypergraph_file,
+                            const char* fixed_file,
+                            const char* community_file,
+                            const char* group_file,
+                            const char* placement_file,
+                            const char* partition_file,
+                            // weight parameters
+                            const std::vector<float>& e_wt_factors,
+                            const std::vector<float>& v_wt_factors,
+                            const std::vector<float>& placement_wt_factors,
+                            // coarsening related parameters
+                            int thr_coarsen_hyperedge_size_skip,
+                            int thr_coarsen_vertices,
+                            int thr_coarsen_hyperedges,
+                            float coarsening_ratio,
+                            int max_coarsen_iters,
+                            float adj_diff_ratio,
+                            int min_num_vertices_each_part,
+                            // initial partitioning related parameters
+                            int num_initial_solutions,
+                            int num_best_initial_solutions,
+                            // refinement related parameters
+                            int refiner_iters,
+                            int max_moves,
+                            float early_stop_ratio,
+                            int total_corking_passes,
+                            // vcycle related parameters
+                            bool v_cycle_flag,
+                            int max_num_vcycle,
+                            int num_coarsen_solutions,
+                            int num_vertices_threshold_ilp,
+                            int global_net_threshold)
+{
+  getPartitionMgr()->tritonPartRefine(
+      num_parts,
+      balance_constraint,
+      base_balance,
+      scale_factor,
+      seed,
+      vertex_dimension,
+      hyperedge_dimension,
+      placement_dimension,
+      hypergraph_file,
+      fixed_file,
+      community_file,
+      group_file,
+      placement_file,
+      partition_file,
+      // weight parameters
+      e_wt_factors,
+      v_wt_factors,
+      placement_wt_factors,
+      // coarsening related parameters
+      thr_coarsen_hyperedge_size_skip,
+      thr_coarsen_vertices,
+      thr_coarsen_hyperedges,
+      coarsening_ratio,
+      max_coarsen_iters,
+      adj_diff_ratio,
+      min_num_vertices_each_part,
+      // initial partitioning related parameters
+      num_initial_solutions,
+      num_best_initial_solutions,
+      // refinement related parameters
+      refiner_iters,
+      max_moves,
+      early_stop_ratio,
+      total_corking_passes,
+      // vcycle related parameters
+      v_cycle_flag,
+      max_num_vcycle,
+      num_coarsen_solutions,
+      num_vertices_threshold_ilp,
+      global_net_threshold);
+}
+
 void evaluate_hypergraph_solution(unsigned int num_parts,
                                   float balance_constraint,
                                   const std::vector<float>& base_balance,

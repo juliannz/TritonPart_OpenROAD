@@ -123,6 +123,47 @@ class PartitionMgr
                             int num_vertices_threshold_ilp,
                             int global_net_threshold);
 
+    void tritonPartRefine(unsigned int num_parts,
+                            float balance_constraint,
+                            const std::vector<float>& base_balance,
+                            const std::vector<float>& scale_factor,
+                            unsigned int seed,
+                            int vertex_dimension,
+                            int hyperedge_dimension,
+                            int placement_dimension,
+                            const char* hypergraph_file,
+                            const char* fixed_file,
+                            const char* community_file,
+                            const char* group_file,
+                            const char* placement_file,
+                            const char* partition_file,
+                            // weight parameters
+                            const std::vector<float>& e_wt_factors,
+                            const std::vector<float>& v_wt_factors,
+                            const std::vector<float>& placement_wt_factors,
+                            // coarsening related parameters
+                            int thr_coarsen_hyperedge_size_skip,
+                            int thr_coarsen_vertices,
+                            int thr_coarsen_hyperedges,
+                            float coarsening_ratio,
+                            int max_coarsen_iters,
+                            float adj_diff_ratio,
+                            int min_num_vertices_each_part,
+                            // initial partitioning related parameters
+                            int num_initial_solutions,
+                            int num_best_initial_solutions,
+                            // refinement related parameters
+                            int refiner_iters,
+                            int max_moves,
+                            float early_stop_ratio,
+                            int total_corking_passes,
+                            // vcycle related parameters
+                            bool v_cycle_flag,
+                            int max_num_vcycle,
+                            int num_coarsen_solutions,
+                            int num_vertices_threshold_ilp,
+                            int global_net_threshold);
+
   // Evaluate a given solution of a hypergraph
   // The fixed vertices should statisfy the fixed vertices constraint
   // The group of vertices should stay together in the solution

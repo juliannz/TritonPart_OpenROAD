@@ -186,6 +186,96 @@ void PartitionMgr::tritonPartHypergraph(
                                    placement_file);
 }
 
+void PartitionMgr::tritonPartRefine(
+    unsigned int num_parts,
+    float balance_constraint,
+    const std::vector<float>& base_balance,
+    const std::vector<float>& scale_factor,
+    unsigned int seed,
+    int vertex_dimension,
+    int hyperedge_dimension,
+    int placement_dimension,
+    const char* hypergraph_file,
+    const char* fixed_file,
+    const char* community_file,
+    const char* group_file,
+    const char* placement_file,
+    const char* partition_file,
+    // weight parameters
+    const std::vector<float>& e_wt_factors,
+    const std::vector<float>& v_wt_factors,
+    const std::vector<float>& placement_wt_factors,
+    // coarsening related parameters
+    int thr_coarsen_hyperedge_size_skip,
+    int thr_coarsen_vertices,
+    int thr_coarsen_hyperedges,
+    float coarsening_ratio,
+    int max_coarsen_iters,
+    float adj_diff_ratio,
+    int min_num_vertices_each_part,
+    // initial partitioning related parameters
+    int num_initial_solutions,
+    int num_best_initial_solutions,
+    // refinement related parameters
+    int refiner_iters,
+    int max_moves,
+    float early_stop_ratio,
+    int total_corking_passes,
+    // vcycle related parameters
+    bool v_cycle_flag,
+    int max_num_vcycle,
+    int num_coarsen_solutions,
+    int num_vertices_threshold_ilp,
+    int global_net_threshold)
+{
+  // Use TritonPart to partition a hypergraph
+  // In this mode, TritonPart works as hMETIS.
+  // Thus users can use this function to partition the input hypergraph
+  auto triton_part
+      = std::make_unique<TritonPart>(db_network_, db_, sta_, logger_);
+  // Convert the string e_wt_factors_str to vector
+  triton_part->SetNetWeight(e_wt_factors);
+  triton_part->SetVertexWeight(v_wt_factors);
+  triton_part->SetPlacementWeight(placement_wt_factors);
+  triton_part->SetFineTuneParams(  // coarsening related parameters
+      thr_coarsen_hyperedge_size_skip,
+      thr_coarsen_vertices,
+      thr_coarsen_hyperedges,
+      coarsening_ratio,
+      max_coarsen_iters,
+      adj_diff_ratio,
+      min_num_vertices_each_part,
+      // initial partitioning related parameters
+      num_initial_solutions,
+      num_best_initial_solutions,
+      // refinement related parameters
+      refiner_iters,
+      max_moves,
+      early_stop_ratio,
+      total_corking_passes,
+      // vcycle related parameters
+      v_cycle_flag,
+      max_num_vcycle,
+      num_coarsen_solutions,
+      num_vertices_threshold_ilp,
+      global_net_threshold);
+
+  triton_part->RefineHypergraphPartition(num_parts,
+                                   balance_constraint,
+                                   base_balance,
+                                   scale_factor,
+                                   seed,
+                                   vertex_dimension,
+                                   hyperedge_dimension,
+                                   placement_dimension,
+                                   hypergraph_file,
+                                   fixed_file,
+                                   community_file,
+                                   group_file,
+                                   placement_file,
+                                   partition_file);
+}
+
 // Evaluate a given solution of a hypergraph
 // The fixed vertices should statisfy the fixed vertices constraint
 // The group of vertices should stay together in the solution

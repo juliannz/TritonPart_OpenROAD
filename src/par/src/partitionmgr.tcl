@@ -317,6 +317,257 @@ proc triton_part_hypergraph { args } {
 }
 
 
+proc triton_part_refine { args } {
+  sta::parse_key_args "triton_part_refine" args \
+      keys {-num_parts \
+            -balance_constraint \
+            -base_balance \
+            -scale_factor \
+            -seed \
+            -vertex_dimension \
+            -hyperedge_dimension \
+            -placement_dimension \
+            -hypergraph_file \
+            -fixed_file \
+            -community_file \
+            -group_file \
+            -placement_file \
+            -partition_file \
+            -e_wt_factors \
+            -v_wt_factors \
+            -placement_wt_factors \
+            -thr_coarsen_hyperedge_size_skip \
+            -thr_coarsen_vertices \
+            -thr_coarsen_hyperedges \
+            -coarsening_ratio \
+            -max_coarsen_iters \
+            -adj_diff_ratio \
+            -min_num_vertices_each_part \
+            -num_initial_solutions \
+            -num_best_initial_solutions \
+            -refiner_iters \
+            -max_moves \
+            -early_stop_ratio \
+            -total_corking_passes \
+            -v_cycle_flag \
+            -max_num_vcycle \
+            -num_coarsen_solutions \
+            -num_vertices_threshold_ilp \
+            -global_net_threshold } \
+      flags {}
+ 
+  if { ![info exists keys(-hypergraph_file)] } {
+    utl::error PAR 0926 "Missing mandatory argument -hypergraph_file."
+  }
+  if { ![info exists keys(-partition_file)] } {
+    utl::error PAR 0927 "Missing mandatory argument -partition_file."
+  }
+  set hypergraph_file $keys(-hypergraph_file)
+  set partition_file $keys(-partition_file)
+  set num_parts 2
+  set balance_constraint 1.0
+  set base_balance { 1.0 }
+  set scale_factor { 1.0 }
+  set seed 0 
+  set vertex_dimension 1
+  set hyperedge_dimension 1
+  set placement_dimension 0
+  set fixed_file ""
+  set community_file ""
+  set group_file ""
+  set placement_file ""
+  set e_wt_factors { 1.0 }
+  set v_wt_factors { 1.0 }
+  set placement_wt_factors { 1.0 }
+  set thr_coarsen_hyperedge_size_skip 200
+  set thr_coarsen_vertices 10
+  set thr_coarsen_hyperedges 50
+  set coarsening_ratio 1.6
+  set max_coarsen_iters 30
+  set adj_diff_ratio 0.0001
+  set min_num_vertices_each_part 4
+  set num_initial_solutions 50
+  set num_best_initial_solutions 10
+  set refiner_iters 10
+  set max_moves 60
+  set early_stop_ratio 0.5
+  set total_corking_passes 25
+  set v_cycle_flag true
+  set max_num_vcycle 1
+  set num_coarsen_solutions 3
+  set num_vertices_threshold_ilp 50
+  set global_net_threshold 1000
+  
+  if { [info exists keys(-num_parts)] } {
+    set num_parts $keys(-num_parts)
+  }
+
+  if { [info exists keys(-balance_constraint)] } {
+    set balance_constraint $keys(-balance_constraint)
+  }
+
+  if { [info exists keys(-seed)] } {
+    set seed $keys(-seed)
+  }
+
+  if { [info exists keys(-vertex_dimension)] } {
+    set vertex_dimension $keys(-vertex_dimension)
+  }
+
+  if { [info exists keys(-hyperedge_dimension)] } {
+    set hyperedge_dimension $keys(-hyperedge_dimension)
+  }
+
+  if { [info exists keys(-placement_dimension)] } {
+    set placement_dimension $keys(-placement_dimension)
+  }
+
+  if { [info exists keys(-fixed_file)] } {
+    set fixed_file $keys(-fixed_file)
+  }
+
+  if { [info exists keys(-community_file)] } {
+    set community_file $keys(-community_file)
+  }
+
+  if { [info exists keys(-group_file)] } {
+    set group_file $keys(-group_file)
+  }
+
+  if { [info exists keys(-placement_file)] } {
+    set placement_file $keys(-placement_file)
+  }
+
+  if { [info exists keys(-base_balance)] } {
+    set base_balance $keys(-base_balance)
+  }
+
+  if { [info exists keys(-scale_factor)] } {
+    set scale_factor $keys(-scale_factor)
+  }
+
+  if { [info exists keys(-e_wt_factors)] } {
+    set e_wt_factors $keys(-e_wt_factors)
+  }
+
+  if { [info exists keys(-v_wt_factors)] } {
+    set v_wt_factors $keys(-v_wt_factors)
+  }
+
+  if { [info exists keys(-placement_wt_factors)] } {
+    set placement_wt_factors $keys(-placement_wt_factors)
+  }
+
+  if { [info exists keys(-thr_coarsen_hyperedge_size_skip)] } {
+    set thr_coarsen_hyperedge_size_skip $keys(-thr_coarsen_hyperedge_size_skip)
+  }
+
+  if { [info exists keys(-thr_coarsen_vertices)] } {
+    set thr_coarsen_vertices $keys(-thr_coarsen_vertices)
+  }
+
+  if { [info exists keys(-thr_coarsen_hyperedges)] } {
+    set thr_coarsen_hyperedges $keys(-thr_coarsen_hyperedges)
+  }
+
+  if { [info exists keys(-coarsening_ratio)] } {
+    set coarsening_ratio $keys(-coarsening_ratio)
+  }
+  
+  if { [info exists keys(-max_coarsen_iters)] } {
+    set max_coarsen_iters $keys(-max_coarsen_iters)
+  }
+
+  if { [info exists keys(-adj_diff_ratio)] } {
+    set adj_diff_ratio $keys(-adj_diff_ratio)
+  }
+
+  if { [info exists keys(-min_num_vertices_each_part)] } {
+    set min_num_vertices_each_part $keys(-min_num_vertices_each_part)
+  }
+
+  if { [info exists keys(-num_initial_solutions)] } {
+    set num_initial_solutions $keys(-num_initial_solutions)
+  }
+
+  if { [info exists keys(-num_best_initial_solutions)] } {
+    set num_best_initial_solutions $keys(-num_best_initial_solutions)
+  }
+
+  if { [info exists keys(-refiner_iters)] } {
+    set refiner_iters $keys(-refiner_iters)
+  }
+
+  if { [info exists keys(-max_moves)] } {
+    set max_moves $keys(-max_moves)
+  }
+
+  if { [info exists keys(-early_stop_ratio)] } {
+    set early_stop_ratio $keys(-early_stop_ratio)
+  }
+
+  if { [info exists keys(-total_corking_passes)] } {
+    set total_corking_passes $keys(-total_corking_passes)
+  }
+
+  if { [info exists keys(-v_cycle_flag)] } {
+    set v_cycle_flag $keys(-v_cycle_flag)
+  }
+
+  if { [info exists keys(-max_num_vcycle)] } {
+    set max_num_vcycle $keys(-max_num_vcycle)
+  }
+
+  if { [info exists keys(-num_coarsen_solutions)] } {
+    set num_coarsen_solutions $keys(-num_coarsen_solutions)
+  }
+
+  if { [info exists keys(-num_vertices_threshold_ilp)] } {
+    set num_vertices_threshold_ilp $keys(-num_vertices_threshold_ilp)
+  }
+
+  if { [info exists keys(-global_net_threshold)] } {
+    set global_net_threshold $keys(-global_net_threshold)
+  }
+
+  par::triton_part_refine $num_parts \
+            $balance_constraint \
+            $base_balance \
+            $scale_factor \
+            $seed \
+            $vertex_dimension \
+            $hyperedge_dimension \
+            $placement_dimension \
+            $hypergraph_file \
+            $fixed_file \
+            $community_file \
+            $group_file \
+            $placement_file \
+            $partition_file \
+            $e_wt_factors \
+            $v_wt_factors \
+            $placement_wt_factors \
+            $thr_coarsen_hyperedge_size_skip \
+            $thr_coarsen_vertices \
+            $thr_coarsen_hyperedges \
+            $coarsening_ratio \
+            $max_coarsen_iters \
+            $adj_diff_ratio \
+            $min_num_vertices_each_part \
+            $num_initial_solutions \
+            $num_best_initial_solutions \
+            $refiner_iters \
+            $max_moves \
+            $early_stop_ratio \
+            $total_corking_passes \
+            $v_cycle_flag \
+            $max_num_vcycle \
+            $num_coarsen_solutions \
+            $num_vertices_threshold_ilp \
+            $global_net_threshold
+}
+
+
 
 sta::define_cmd_args "evaluate_hypergraph_solution" {
   -num_parts num_parts \
