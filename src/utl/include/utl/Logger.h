@@ -96,6 +96,9 @@ namespace utl {
 #define FMT_RUNTIME(format_string) fmt::runtime(format_string)
 
 // fix fmt enum formatting issue, see https://stackoverflow.com/a/77751342
+}
+
+namespace fmt {
 template <typename EnumType>
 struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType>>
 {
@@ -106,6 +109,10 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
             static_cast<std::underlying_type_t<EnumType>>(enumValue), ctx);
     }
 };
+
+}
+
+{
 #else
 #define FMT_RUNTIME(format_string) format_string
 #endif
