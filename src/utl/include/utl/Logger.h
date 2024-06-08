@@ -100,8 +100,7 @@ namespace utl {
 
 #include <type_traits>
 
-template <typename EnumType>
-requires std::is_enum_v<EnumType>
+template <typename EnumType, std::enable_if_t<std::is_enum_v<EnumType>::value, bool> = true>
 struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType>>
 {
     // Forwards the formatting by casting the enum to it's underlying type
