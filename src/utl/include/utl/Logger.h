@@ -94,6 +94,18 @@ namespace utl {
 // backward compatibility with fmt versions older than 8
 #if FMT_VERSION >= 80000
 #define FMT_RUNTIME(format_string) fmt::runtime(format_string)
+
+// fix fmt enum formatting issue, see https://stackoverflow.com/a/77751342
+template <typename EnumType>
+struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType>>
+{
+    // Forwards the formatting by casting the enum to it's underlying type
+    auto format(const EnumType& enumValue, format_context& ctx) const
+    {
+        return fmt::formatter<std::underlying_type_t<EnumType>>::format(
+            static_cast<std::underlying_type_t<EnumType>>(enumValue), ctx);
+    }
+};
 #else
 #define FMT_RUNTIME(format_string) format_string
 #endif
