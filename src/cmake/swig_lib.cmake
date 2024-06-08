@@ -135,7 +135,7 @@ function(swig_lib)
     set(LANG_INIT ${CMAKE_CURRENT_BINARY_DIR}/${ARG_NAME}-${ARG_LANGUAGE}InitVar.cc)
 
     add_custom_command(OUTPUT ${LANG_INIT}
-      COMMAND  PATH="$TCL_SH;$PATH" ${OPENSTA_HOME}/etc/TclEncode.tcl ${LANG_INIT} ${ARG_NAME}_${ARG_LANGUAGE}_inits ${ARG_SCRIPTS}
+      COMMAND PATH="$TCL_SH;$PATH" ${OPENSTA_HOME}/etc/TclEncode.tcl ${LANG_INIT} ${ARG_NAME}_${ARG_LANGUAGE}_inits ${ARG_SCRIPTS}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       DEPENDS ${ARG_SCRIPTS}
     )
