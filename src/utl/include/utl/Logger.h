@@ -109,7 +109,7 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
     }
 };
 
-{
+namespace utl {
 #else
 #define FMT_RUNTIME(format_string) format_string
 #endif
