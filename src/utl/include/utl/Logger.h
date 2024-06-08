@@ -98,7 +98,10 @@ namespace utl {
 // fix fmt enum formatting issue, see https://stackoverflow.com/a/77751342
 }
 
+#include <type_traits>
+
 template <typename EnumType>
+requires std::is_enum_v<EnumType>
 struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType>>
 {
     // Forwards the formatting by casting the enum to it's underlying type
