@@ -116,14 +116,10 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
 
 #else
 
-namespace utl {
-
 template<typename T, typename = std::enable_if<std::is_enum<T>::value, bool>>
 auto format_as(T t) -> typename std::underlying_type<T>::type { 
     fmt::print("enum format_as\n");
     return fmt::underlying(t); 
-}
-
 }
 
 #endif
