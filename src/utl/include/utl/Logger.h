@@ -116,14 +116,17 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
 
 #else
 
+namespace utl {
+
 #if __cplusplus >= 201402L
 template<typename T, std::enable_if_t<std::is_enum<T>::value, bool> = true>
 #else
 template<typename T, typename = std::enable_if<std::is_enum<T>::value, bool>>
 #endif
 auto format_as(T t) -> typename std::underlying_type<T>::type { 
-    fmt::print("enum format_as\n");
     return fmt::underlying(t); 
+}
+
 }
 
 #endif
