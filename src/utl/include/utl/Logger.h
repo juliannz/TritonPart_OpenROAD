@@ -117,7 +117,7 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
 #else
 
 #if __cplusplus >= 201402L
-template<typename T, std::enable_if<std::is_enum<T>::value, bool> = true>
+template<typename T, std::enable_if_t<std::is_enum<T>::value, bool> = true>
 #else
 template<typename T, typename = std::enable_if<std::is_enum<T>::value, bool>>
 #endif
