@@ -33,7 +33,7 @@
 
 include("openroad")
 
-find_package(ortools REQUIRED PATHS ${OR_TOOLS_PATHS} NO_DEFAULT_PATH)
+find_package(ortools CONFIG REQUIRED PATHS ${OR_TOOLS_PATHS} NO_DEFAULT_PATH)
 
 add_library(mpl2_lib
   src/rtl_mp.cpp

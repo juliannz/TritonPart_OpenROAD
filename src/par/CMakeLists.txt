@@ -47,7 +47,7 @@ if (LOAD_CPLEX)
 endif (LOAD_CPLEX)
 
 find_package(Threads REQUIRED)
-find_package(ortools REQUIRED PATHS ${OR_TOOLS_PATHS} NO_DEFAULT_PATH)
+find_package(ortools CONFIG REQUIRED PATHS ${OR_TOOLS_PATHS} NO_DEFAULT_PATH)
 
 add_library(par_lib
   src/PartitionMgr.cpp
