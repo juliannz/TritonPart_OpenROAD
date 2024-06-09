@@ -33,13 +33,6 @@
 
 include("openroad")
 
-if (NOT OR_TOOLS_PATHS)
-
-  # The location used by etc/DependencyInstaller.sh
-  set(OR_TOOLS_PATHS "/opt/or-tools/lib64/cmake" "/opt/or-tools/lib/cmake")
-
-endif()
-
 find_package(ortools REQUIRED PATHS ${OR_TOOLS_PATHS} NO_DEFAULT_PATH)
 
 add_library(mpl2_lib

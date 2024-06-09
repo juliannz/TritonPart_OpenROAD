@@ -75,6 +75,11 @@ option(ENABLE_TESTS "Enable OpenROAD tests" ON)
 # Allow enabling address sanitizer
 option(ASAN "Enable Address Sanitizer" OFF)
 
+if (NOT OR_TOOLS_PATHS)
+  # The location used by etc/DependencyInstaller.sh
+  set(OR_TOOLS_PATHS "/opt/or-tools/lib64/cmake" "/opt/or-tools/lib/cmake")
+endif()
+
 project(OpenROAD VERSION 1
   LANGUAGES CXX
 )
