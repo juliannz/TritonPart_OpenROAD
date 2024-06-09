@@ -100,7 +100,7 @@ namespace utl {
 
 #include <type_traits>
 
-#if __cplusplus == 202002L
+#if __cplusplus >= 202002L
 
 template <typename EnumType>
 requires std::is_enum_v<EnumType>
@@ -116,7 +116,11 @@ struct fmt::formatter<EnumType> : fmt::formatter<std::underlying_type_t<EnumType
 
 #else
 
+#if __cplusplus >= 201402L
+template<typename T, std::enable_if<std::is_enum<T>::value, bool> = true>
+#else
 template<typename T, typename = std::enable_if<std::is_enum<T>::value, bool>>
+#endif
 auto format_as(T t) -> typename std::underlying_type<T>::type { 
     fmt::print("enum format_as\n");
     return fmt::underlying(t); 
