@@ -38,9 +38,11 @@ if (NOT USE_SYSTEM_OR_TOOLS)
   # lib64 is used for CentOS and openSUSE
   # lib is used for Ubuntu and MacOS
   set(OR_TOOLS_PATHS "/opt/or-tools/lib64" "/opt/or-tools/lib")
-  list(APPEND CMAKE_PREFIX_PATH ${OR_TOOLS_PATHS})
-  list(APPEND CMAKE_INSTALL_RPATH ${OR_TOOLS_PATH})
+elseif(CMAKE_INSTALL_PREFIX)
+  set(OR_TOOLS_PATHS ${CMAKE_INSTALL_PREFIX})
 endif()
+list(APPEND CMAKE_PREFIX_PATH ${OR_TOOLS_PATHS})
+list(APPEND CMAKE_INSTALL_RPATH ${OR_TOOLS_PATH})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/src/cmake")
 
