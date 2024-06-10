@@ -69,6 +69,8 @@ option(USE_SYSTEM_OPENSTA "Use system shared OpenSTA library" OFF)
 # Allow to use external shared abc libraries
 option(USE_SYSTEM_ABC "Use system shared ABC library" OFF)
 
+option(USE_SYSTEM_OR_TOOLS "Use system shared or-tools library" OFF)
+
 # Allow disabling tests
 option(ENABLE_TESTS "Enable OpenROAD tests" ON)
 
