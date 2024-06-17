@@ -46,12 +46,12 @@ set(POWV9_CPP ${CMAKE_CURRENT_BINARY_DIR}/POWV9.cpp)
 set(POST9_CPP ${CMAKE_CURRENT_BINARY_DIR}/POST9.cpp)
 
 add_custom_command(OUTPUT ${POWV9_CPP}
-  COMMAND ${FLUTE_HOME}/etc/MakeDatVar.tcl powv9 ${POWV9_CPP} ${POWV9_DAT}
+  COMMAND PATH=${TCL_BIN_PATH}:$ENV{PATH} ${FLUTE_HOME}/etc/MakeDatVar.tcl powv9 ${POWV9_CPP} ${POWV9_DAT}
   DEPENDS ${POWV9_DAT} ${FLUTE_HOME}/etc/MakeDatVar.tcl
 )
 
 add_custom_command(OUTPUT ${POST9_CPP}
-  COMMAND ${FLUTE_HOME}/etc/MakeDatVar.tcl post9 ${POST9_CPP} ${POST9_DAT}
+  COMMAND PATH=${TCL_BIN_PATH}:$ENV{PATH} ${FLUTE_HOME}/etc/MakeDatVar.tcl post9 ${POST9_CPP} ${POST9_DAT}
   DEPENDS ${POST9_DAT} ${FLUTE_HOME}/etc/MakeDatVar.tcl
   )
 
